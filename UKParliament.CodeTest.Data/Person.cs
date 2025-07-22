@@ -1,31 +1,34 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UKParliament.CodeTest.Data;
 
 public class Person
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "First name is required")]
-    [StringLength(50, ErrorMessage = "First name cannot exceed 50 characters")]
-    public string FirstName { get; set; } = "";
+    [Required]
+    [MaxLength(50)]
+    public string FirstName { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Last name is required")]
-    [StringLength(50, ErrorMessage = "Last name cannot exceed 50 characters")]
-    public string LastName { get; set; } = "";
+    [Required]
+    [MaxLength(50)]
+    public string LastName { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Date of birth is required")]
-    [DataType(DataType.Date)]
+    [Required]
+    [Column(TypeName = "date")]
     public DateOnly DateOfBirth { get; set; }
 
-    [Required(ErrorMessage = "Department is required")]
+    [Required]
+    [ForeignKey(nameof(Department))]
     public int DepartmentId { get; set; }
 
-    public Department Department { get; set; }
+    public Department Department { get; set; } = null!;
 
-    [Required(ErrorMessage = "Email is required")]
-    [EmailAddress(ErrorMessage = "Invalid email format")]
-    [StringLength(100, ErrorMessage = "Email cannot exceed 100 characters")]
-    public string Email { get; set; } = "";
-
+    [Required]
+    [MaxLength(100)]
+    [EmailAddress]
+    public string Email { get; set; } = string.Empty;
 }

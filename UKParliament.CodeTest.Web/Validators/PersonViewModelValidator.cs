@@ -1,42 +1,41 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UKParliament.CodeTest.Data.Repositories;
+﻿using FluentValidation;
 using UKParliament.CodeTest.Web.ViewModels;
 
 namespace UKParliament.CodeTest.Web.Validators;
 
-public interface IPersonViewModelValidator
+public class PersonViewModelValidator: AbstractValidator<PersonViewModel>
 {
-    Task<ValidationResult> ValidateAsync(PersonViewModel viewModel);
-}
-
-public class PersonViewModelValidator(IDepartmentRepository departmentRepository) : IPersonViewModelValidator
-{
-    public async Task<ValidationResult> ValidateAsync(PersonViewModel viewModel)
+    public PersonViewModelValidator()
     {
-        var result = new ValidationResult();
+        RuleFor(x => x.FirstName)
+             .NotEmpty().WithMessage("First name is required.")
+             .Length(2, 50).WithMessage("First name must be 2-50 characters.")
+             .Matches(@"^[a-zA-Z\s]+$").WithMessage("First name can only contain letters and spaces.");
 
-        if (string.IsNullOrWhiteSpace(viewModel.FirstName))
-            result.Errors.Add("First name is required.");
-        else if (viewModel.FirstName.Length > 50)
-            result.Errors.Add("First name cannot exceed 50 characters.");
+        RuleFor(x => x.LastName)
+           .NotEmpty().WithMessage("Last name is required.")
+           .Length(2, 50).WithMessage("Last name must be 2-50 characters.")
+           .Matches(@"^[a-zA-Z\s]+$").WithMessage("Last name can only contain letters and spaces.");
 
-        if (string.IsNullOrWhiteSpace(viewModel.LastName))
-            result.Errors.Add("Last name is required.");
-        else if (viewModel.LastName.Length > 50)
-            result.Errors.Add("Last name cannot exceed 50 characters.");
+        RuleFor(x => x.DateOfBirth)
+           .NotEmpty().WithMessage("Date of birth is required.")
+           .Must(BeAtLeast18YearsOld).WithMessage("Person must be at least 18 years old.");
 
-        if (viewModel.DateOfBirth == default)
-            result.Errors.Add("Date of birth is required.");
-        else if (viewModel.DateOfBirth > DateOnly.FromDateTime(DateTime.Today))
-            result.Errors.Add("Date of birth cannot be in the future.");
+        RuleFor(x => x.DepartmentId)
+            .NotEmpty().WithMessage("Department is required.")
+            .GreaterThan(0).WithMessage("Invalid department selected.");
 
-        if (string.IsNullOrWhiteSpace(viewModel.Email) || !new EmailAddressAttribute().IsValid(viewModel.Email))
-            result.Errors.Add("Invalid email format.");
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage("Email is required.")
+            .EmailAddress().WithMessage("Invalid email format.")
+            .MaximumLength(100).WithMessage("Email cannot exceed 100 characters.");
+    }
 
-        var departments = await departmentRepository.GetAllAsync();
-        if (!departments.Any(d => d.Id == viewModel.DepartmentId))
-            result.Errors.Add("Invalid department selected.");
-
-        return result;
+    private bool BeAtLeast18YearsOld(DateOnly dateOfBirth)
+    {
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        var age = today.Year - dateOfBirth.Year;
+        if (dateOfBirth > today.AddYears(-age)) age--;
+        return age >= 18;
     }
 }

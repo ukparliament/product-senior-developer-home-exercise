@@ -1,13 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UKParliament.CodeTest.Data;
+﻿using UKParliament.CodeTest.Services.Dtos;
 
 namespace UKParliament.CodeTest.Services;
 
 public interface IPersonService
 {
-    Task<IEnumerable<Person>> GetAllAsync();
-    Task<Person> GetByIdAsync(int id);
-    Task<ValidationResult> AddAsync(Person viewModel);
-    Task<ValidationResult> UpdateAsync(Person viewModel);
+    Task<IEnumerable<PersonDto>> GetAllAsync();
+    Task<PersonDto> GetByIdAsync(int id);
+    Task AddAsync(PersonDto dto);
+    Task UpdateAsync(PersonDto dto);
     Task DeleteAsync(int id);
 }

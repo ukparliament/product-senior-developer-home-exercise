@@ -1,32 +1,43 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UKParliament.CodeTest.Data;
+﻿using UKParliament.CodeTest.Data.Repositories;
+using UKParliament.CodeTest.Services.Dtos;
+using UKParliament.CodeTest.Services.Mappers;
 
 namespace UKParliament.CodeTest.Services;
 
-public class PersonService : IPersonService
+public class PersonService(IPersonRepository repository, IPersonServiceMapper mapper) : IPersonService
 {
-    public Task<ValidationResult> AddAsync(Person viewModel)
+    public async Task<IEnumerable<PersonDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var persons = await repository.GetAllAsync();
+        return mapper.ToDtos(persons);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task<PersonDto> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var person = await repository.GetByIdAsync(id);
+        return mapper.ToDto(person);
     }
 
-    public Task<IEnumerable<Person>> GetAllAsync()
+    public async Task UpdateAsync(PersonDto dto)
     {
-        throw new NotImplementedException();
+        var person = await repository.GetByIdAsync(dto.Id);
+        person.FirstName = dto.FirstName;
+        person.LastName = dto.LastName;
+        person.DateOfBirth = dto.DateOfBirth;
+        person.DepartmentId = dto.DepartmentId;
+        person.Email = dto.Email;
+
+        await repository.UpdateAsync(person);
     }
 
-    public Task<Person> GetByIdAsync(int id)
+    public async Task AddAsync(PersonDto dto)
     {
-        throw new NotImplementedException();
+        var person = mapper.ToEntity(dto);
+        await repository.AddAsync(person);
     }
 
-    public Task<ValidationResult> UpdateAsync(Person viewModel)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        await repository.DeleteAsync(id);
     }
 }

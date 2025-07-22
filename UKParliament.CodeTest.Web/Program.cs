@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using UKParliament.CodeTest.Data;
 using UKParliament.CodeTest.Data.Repositories;
 using UKParliament.CodeTest.Services;
-using UKParliament.CodeTest.Web.Mappers;
 using UKParliament.CodeTest.Web.Validators;
+using FluentValidation;
+using UKParliament.CodeTest.Web.ViewModels;
+using UKParliament.CodeTest.Services.Mappers;
 
 namespace UKParliament.CodeTest.Web;
 
@@ -21,8 +23,8 @@ public class Program
         builder.Services.AddScoped<IPersonRepository, PersonRepository>();
         builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         builder.Services.AddScoped<IPersonService, PersonService>();
-        builder.Services.AddScoped<IPersonViewModelValidator, PersonViewModelValidator>();
-        builder.Services.AddScoped<IMapper, Mapper>();
+        builder.Services.AddScoped<IPersonServiceMapper, PersonServiceMapper>();
+        builder.Services.AddScoped<IValidator<PersonViewModel>, PersonViewModelValidator>();
 
         var app = builder.Build();
 
