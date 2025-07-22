@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using UKParliament.CodeTest.Services;
 using UKParliament.CodeTest.Web.Mappers;
@@ -74,7 +73,7 @@ public class PersonController(IPersonService personService,
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var success =await personService.DeleteAsync(id);
+        var success = await personService.DeleteAsync(id);
         if (!success)
         {
             return NotFound();

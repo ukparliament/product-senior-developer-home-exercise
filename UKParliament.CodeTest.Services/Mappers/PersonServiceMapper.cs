@@ -4,15 +4,20 @@ using UKParliament.CodeTest.Services.Dtos;
 namespace UKParliament.CodeTest.Services.Mappers;
 public interface IPersonServiceMapper
 {
-    PersonDto ToDto(Person person);
-    Person ToEntity(PersonDto viewModel);
+    PersonDto? ToDto(Person person);
+    Person? ToEntity(PersonDto viewModel);
     IEnumerable<PersonDto> ToDtos(IEnumerable<Person> persons);
 }
 
 public class PersonServiceMapper : IPersonServiceMapper
 {
-    public PersonDto ToDto(Person person)
+    public PersonDto? ToDto(Person person)
     {
+        if (person == null)
+        {
+            return null;
+        }
+
         return new PersonDto
         {
             Id = person.Id,
@@ -26,8 +31,13 @@ public class PersonServiceMapper : IPersonServiceMapper
     }
 
 
-    public Person ToEntity(PersonDto dto)
+    public Person? ToEntity(PersonDto dto)
     {
+        if (dto == null)
+        {
+            return null;
+        }
+
         return new Person
         {
             Id = dto.Id,

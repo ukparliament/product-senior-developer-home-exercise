@@ -12,9 +12,10 @@ public class PersonService(IPersonRepository repository, IPersonServiceMapper ma
         return mapper.ToDtos(persons);
     }
 
-    public async Task<PersonDto> GetByIdAsync(int id)
+    public async Task<PersonDto?> GetByIdAsync(int id)
     {
         var person = await repository.GetByIdAsync(id);
+
         return mapper.ToDto(person);
     }
 

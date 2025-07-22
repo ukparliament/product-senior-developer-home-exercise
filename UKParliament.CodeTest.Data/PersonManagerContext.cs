@@ -18,6 +18,26 @@ public class PersonManagerContext : DbContext
             new Department { Id = 2, Name = "Marketing" },
             new Department { Id = 3, Name = "Finance" },
             new Department { Id = 4, Name = "HR" });
+
+        modelBuilder.Entity<Person>().HasData(
+            new Person
+            {
+                Id = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateOnly(1990, 2, 15),
+                DepartmentId = 1, 
+                Email = "john.doe@example.com"
+            },
+            new Person
+            {
+                Id = 2,
+                FirstName = "Jane",
+                LastName = "Smith",
+                DateOfBirth = new DateOnly(1993, 5, 22),
+                DepartmentId = 2, 
+                Email = "jane.smith@example.com"
+            });
     }
 
     public DbSet<Person> People { get; set; }
