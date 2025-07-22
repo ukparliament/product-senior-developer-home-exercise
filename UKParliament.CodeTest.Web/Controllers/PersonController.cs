@@ -1,30 +1,84 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using UKParliament.CodeTest.Services;
+using UKParliament.CodeTest.Web.Mappers;
 using UKParliament.CodeTest.Web.ViewModels;
 
 namespace UKParliament.CodeTest.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PersonController(IValidator<PersonViewModel> validator) : ControllerBase
+public class PersonController(IPersonService personService,
+    IValidator<PersonViewModel> validator,
+    IPersonApiMapper mapper) : ControllerBase
 {
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<PersonViewModel>>> GetAll()
+    {
+        var people = await personService.GetAllAsync();
+        return Ok(people);
+    }
 
     [Route("{id:int}")]
     [HttpGet]
-    public ActionResult<PersonViewModel> GetById(int id)
+    public async Task<ActionResult<PersonViewModel>> GetById(int id)
     {
-        return Ok(new PersonViewModel());
+        var person = await personService.GetByIdAsync(id);
+        if (person == null)
+        {
+            return NotFound();
+        }
+        return Ok(person);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(PersonViewModel model)
+    public async Task<ActionResult<PersonViewModel>> Add(PersonViewModel model)
     {
-        var result = await validator.ValidateAsync(model);
-        if (!result.IsValid)
+        var validationResult = await validator.ValidateAsync(model);
+        if (!validationResult.IsValid)
         {
-            return BadRequest(result.Errors);
+            return BadRequest(validationResult.Errors);
         }
-        return Ok();
+
+        var personDto = mapper.ToDto(model);
+        var createdPerson = await personService.AddAsync(personDto);
+        var response = mapper.ToViewModel(createdPerson);
+
+        return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, PersonViewModel model)
+    {
+        if (id != model.Id)
+        {
+            return BadRequest("ID mismatch");
+        }
+
+        var validationResult = await validator.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        var personDto = mapper.ToDto(model);
+        var success = await personService.UpdateAsync(personDto);
+        if (!success)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var success =await personService.DeleteAsync(id);
+        if (!success)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
 }

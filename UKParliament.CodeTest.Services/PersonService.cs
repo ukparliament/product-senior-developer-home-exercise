@@ -18,9 +18,14 @@ public class PersonService(IPersonRepository repository, IPersonServiceMapper ma
         return mapper.ToDto(person);
     }
 
-    public async Task UpdateAsync(PersonDto dto)
+    public async Task<bool> UpdateAsync(PersonDto dto)
     {
         var person = await repository.GetByIdAsync(dto.Id);
+        if (person == null)
+        {
+            return false;
+        }
+
         person.FirstName = dto.FirstName;
         person.LastName = dto.LastName;
         person.DateOfBirth = dto.DateOfBirth;
@@ -28,16 +33,28 @@ public class PersonService(IPersonRepository repository, IPersonServiceMapper ma
         person.Email = dto.Email;
 
         await repository.UpdateAsync(person);
+        return true;
     }
 
-    public async Task AddAsync(PersonDto dto)
+    public async Task<PersonDto> AddAsync(PersonDto dto)
     {
         var person = mapper.ToEntity(dto);
+        person.Id = repository.GetNextId();
         await repository.AddAsync(person);
+
+        dto.Id = person.Id;
+        return dto;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
+        var person = await repository.GetByIdAsync(id);
+        if (person == null)
+        {
+            return false;
+        }
+
         await repository.DeleteAsync(id);
+        return true;
     }
 }

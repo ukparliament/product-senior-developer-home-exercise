@@ -6,8 +6,8 @@ namespace UKParliament.CodeTest.Web.Mappers;
 public interface IPersonApiMapper
 {
     PersonViewModel ToViewModel(PersonDto person);
-    PersonDto ToEntity(PersonViewModel viewModel);
-    IEnumerable<PersonViewModel> ToViewModel(IEnumerable<PersonDto> persons);
+    PersonDto ToDto(PersonViewModel viewModel);
+    IEnumerable<PersonViewModel> ToDtos(IEnumerable<PersonDto> persons);
 }
 
 public class PersonApiMapper : IPersonApiMapper
@@ -26,7 +26,7 @@ public class PersonApiMapper : IPersonApiMapper
         };
     }
 
-    public PersonDto ToEntity(PersonViewModel viewModel)
+    public PersonDto ToDto(PersonViewModel viewModel)
     {
         return new PersonDto
         {
@@ -39,7 +39,7 @@ public class PersonApiMapper : IPersonApiMapper
         };
     }
 
-    public IEnumerable<PersonViewModel> ToViewModel(IEnumerable<PersonDto> persons)
+    public IEnumerable<PersonViewModel> ToDtos(IEnumerable<PersonDto> persons)
     {
         return persons.Select(person => new PersonViewModel
         {

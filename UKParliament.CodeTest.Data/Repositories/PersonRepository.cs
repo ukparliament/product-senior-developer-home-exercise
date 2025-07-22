@@ -8,6 +8,7 @@ public interface IPersonRepository
     Task AddAsync(Person person);
     Task UpdateAsync(Person person);
     Task DeleteAsync(int id);
+    int GetNextId();
 }
 
 public class PersonRepository(PersonManagerContext context) : IPersonRepository
@@ -44,6 +45,11 @@ public class PersonRepository(PersonManagerContext context) : IPersonRepository
             _context.People.Remove(person);
             await _context.SaveChangesAsync();
         }
-    }    
+    }
+
+    public int GetNextId()
+    {
+        return _context.People.Any() ? _context.People.Max(p => p.Id) + 1 : 1;
+    }
 }
 
