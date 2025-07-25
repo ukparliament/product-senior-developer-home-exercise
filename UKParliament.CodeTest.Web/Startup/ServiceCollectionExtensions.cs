@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IValidator<PersonViewModel>, PersonViewModelValidator>();
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IDepartmentServiceMapper, DepartmentServiceMapper>();
+        services.AddScoped<IDepartmentApiMapper, DepartmentApiMapper>();
 
         return services;
     }

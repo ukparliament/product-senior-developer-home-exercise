@@ -16,7 +16,8 @@ public class PersonController(IPersonService personService,
     public async Task<ActionResult<IEnumerable<PersonViewModel>>> GetAll()
     {
         var people = await personService.GetAllAsync();
-        return Ok(people);
+        var result = mapper.ToViewModels(people);
+        return Ok(result);
     }
 
     [Route("{id:int}")]
@@ -28,7 +29,8 @@ public class PersonController(IPersonService personService,
         {
             return NotFound();
         }
-        return Ok(person);
+        var result = mapper.ToViewModel(person);
+        return Ok(result);
     }
 
     [HttpPost]

@@ -51,6 +51,11 @@ public class PersonServiceMapper : IPersonServiceMapper
 
     public IEnumerable<PersonDto> ToDtos(IEnumerable<Person> persons)
     {
+        if (persons is null)
+        {
+            return [];
+        }
+
         return persons.Select(person => new PersonDto
         {
             Id = person.Id,

@@ -12,6 +12,10 @@ public class DepartmentServiceMapper : IDepartmentServiceMapper
 {  
     public IEnumerable<DepartmentDto> ToDtos(IEnumerable<Department> departments)
     {
+        if (departments is null)
+        {
+            return [];
+        }
         return departments.Select(dept => new DepartmentDto
         {
             Id = dept.Id,

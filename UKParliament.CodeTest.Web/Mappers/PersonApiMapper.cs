@@ -7,7 +7,7 @@ public interface IPersonApiMapper
 {
     PersonViewModel ToViewModel(PersonDto person);
     PersonDto ToDto(PersonViewModel viewModel);
-    IEnumerable<PersonViewModel> ToDtos(IEnumerable<PersonDto> persons);
+    IEnumerable<PersonViewModel> ToViewModels(IEnumerable<PersonDto> people);
 }
 
 public class PersonApiMapper : IPersonApiMapper
@@ -39,19 +39,12 @@ public class PersonApiMapper : IPersonApiMapper
         };
     }
 
-    public IEnumerable<PersonViewModel> ToDtos(IEnumerable<PersonDto> persons)
+    public IEnumerable<PersonViewModel> ToViewModels(IEnumerable<PersonDto> people)
     {
-        return persons.Select(person => new PersonViewModel
+        if (people is null)
         {
-            Id = person.Id,
-            FirstName = person.FirstName,
-            LastName = person.LastName,
-            DateOfBirth = person.DateOfBirth,
-            DepartmentId = person.DepartmentId,
-            DepartmentName = person.DepartmentName,
-            Email = person.Email
-        });
+            return [];
+        }
+        return people.Select(ToViewModel);
     }
-
-
 }
