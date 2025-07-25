@@ -4,6 +4,15 @@ using UKParliament.CodeTest.Services.Mappers;
 
 namespace UKParliament.CodeTest.Services;
 
+public interface IPersonService
+{
+    Task<IEnumerable<PersonDto>> GetAllAsync();
+    Task<PersonDto?> GetByIdAsync(int id);
+    Task<PersonDto> AddAsync(PersonDto dto);
+    Task<bool> UpdateAsync(PersonDto dto);
+    Task<bool> DeleteAsync(int id);
+}
+
 public class PersonService(IPersonRepository repository, IPersonServiceMapper mapper) : IPersonService
 {
     public async Task<IEnumerable<PersonDto>> GetAllAsync()
@@ -32,6 +41,7 @@ public class PersonService(IPersonRepository repository, IPersonServiceMapper ma
         person.DateOfBirth = dto.DateOfBirth;
         person.DepartmentId = dto.DepartmentId;
         person.Email = dto.Email;
+        person.Department = null;
 
         await repository.UpdateAsync(person);
         return true;

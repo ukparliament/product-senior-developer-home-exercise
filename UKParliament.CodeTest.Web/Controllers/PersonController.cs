@@ -37,7 +37,8 @@ public class PersonController(IPersonService personService,
         var validationResult = await validator.ValidateAsync(model);
         if (!validationResult.IsValid)
         {
-            return BadRequest(validationResult.Errors);
+            var errors = validationResult.Errors.Select(x => x.ErrorMessage);
+            return BadRequest(errors);
         }
 
         var personDto = mapper.ToDto(model);
@@ -48,7 +49,7 @@ public class PersonController(IPersonService personService,
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, PersonViewModel model)
+    public async Task<ActionResult<PersonViewModel>> Update(int id, PersonViewModel model)
     {
         if (id != model.Id)
         {

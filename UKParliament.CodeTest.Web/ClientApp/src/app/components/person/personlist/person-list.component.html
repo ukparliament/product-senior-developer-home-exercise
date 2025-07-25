@@ -1,0 +1,31 @@
+<table class="govuk-table" role="grid">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">First Name</th>
+      <th scope="col" class="govuk-table__header">Last Name</th>
+      <th scope="col" class="govuk-table__header">Department</th>
+      <th scope="col" class="govuk-table__header">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr *ngFor="let person of people" class="govuk-table__row" role="row">
+      <td class="govuk-table__cell">{{ person.firstName }}</td>
+      <td class="govuk-table__cell">{{ person.lastName }}</td>
+      <td class="govuk-table__cell">{{ person.departmentName }}</td>
+      <td class="govuk-table__cell">
+        <button class="govuk-button govuk-button--secondary govuk-!-display-inline-block govuk-!-margin-right-1"
+                data-module="govuk-button"
+                (click)="selectPerson.emit(person)"
+                [attr.aria-label]="'Edit ' + person.firstName + ' ' + person.lastName">
+          Edit
+        </button>
+        <button class="govuk-button govuk-button--warning govuk-!-display-inline-block"
+                data-module="govuk-button"
+                (click)="deletePerson.emit(person.id); $event.stopPropagation()"
+                [attr.aria-label]="'Delete ' + person.firstName + ' ' + person.lastName">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

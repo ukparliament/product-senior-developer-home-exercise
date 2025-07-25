@@ -7,6 +7,7 @@ using FluentValidation;
 using UKParliament.CodeTest.Web.ViewModels;
 using UKParliament.CodeTest.Services.Mappers;
 using UKParliament.CodeTest.Web.Mappers;
+using UKParliament.CodeTest.Web.Startup;
 
 namespace UKParliament.CodeTest.Web;
 
@@ -20,13 +21,7 @@ public class Program
 
         builder.Services.AddControllersWithViews();
 
-        builder.Services.AddDbContext<PersonManagerContext>(op => op.UseInMemoryDatabase("PersonManager"));
-        builder.Services.AddScoped<IPersonRepository, PersonRepository>();
-        builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-        builder.Services.AddScoped<IPersonService, PersonService>();
-        builder.Services.AddScoped<IPersonServiceMapper, PersonServiceMapper>();
-        builder.Services.AddScoped<IPersonApiMapper, PersonApiMapper>();
-        builder.Services.AddScoped<IValidator<PersonViewModel>, PersonViewModelValidator>();
+        builder.Services.AddApplicationServices();
 
         var app = builder.Build();
 

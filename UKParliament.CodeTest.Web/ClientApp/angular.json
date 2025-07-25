@@ -27,13 +27,21 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/govuk-frontend/dist/govuk/assets",
+                "output": "/assets"
+              }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js",
+              "src/assets/js/govuk-init.js"
+            ]
           },
           "configurations": {
             "production": {

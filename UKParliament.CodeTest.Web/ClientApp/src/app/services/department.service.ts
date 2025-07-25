@@ -11,7 +11,7 @@ import { Department } from '../models/department-view-model';
 export class DepartmentService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
-  private departmentUrl = this.baseUrl + '/api/department';
+  private departmentUrl = this.baseUrl + 'api/department';
 
 
   getAll(): Observable<Department[]> {

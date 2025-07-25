@@ -1,0 +1,103 @@
+<form [formGroup]="personForm" (ngSubmit)="save()" class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+      {{ person.id === 0 ? 'Add Person' : 'Edit Person' }}
+    </legend>
+
+    <div class="govuk-form-group" [class.govuk-form-group--error]="personForm.get('firstName')?.invalid && personForm.get('firstName')?.touched">
+      <label for="firstName" class="govuk-label">First Name</label>
+      <p *ngIf="personForm.get('firstName')?.invalid && personForm.get('firstName')?.touched"
+         id="firstName-error"
+         class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> {{ getErrorMessage('firstName') }}
+      </p>
+      <input id="firstName"
+             formControlName="firstName"
+             type="text"
+             class="govuk-input"
+             [class.govuk-input--error]="personForm.get('firstName')?.invalid && personForm.get('firstName')?.touched"
+             aria-required="true"
+             [attr.aria-invalid]="personForm.get('firstName')?.invalid && personForm.get('firstName')?.touched"
+             aria-describedby="firstName-error">
+    </div>
+
+    <div class="govuk-form-group" [class.govuk-form-group--error]="personForm.get('lastName')?.invalid && personForm.get('lastName')?.touched">
+      <label for="lastName" class="govuk-label">Last Name</label>
+      <p *ngIf="personForm.get('lastName')?.invalid && personForm.get('lastName')?.touched"
+         id="lastName-error"
+         class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> {{ getErrorMessage('lastName') }}
+      </p>
+      <input id="lastName"
+             formControlName="lastName"
+             type="text"
+             class="govuk-input"
+             [class.govuk-input--error]="personForm.get('lastName')?.invalid && personForm.get('lastName')?.touched"
+             aria-required="true"
+             [attr.aria-invalid]="personForm.get('lastName')?.invalid && personForm.get('lastName')?.touched"
+             aria-describedby="lastName-error">
+    </div>
+
+    <div class="govuk-form-group" [class.govuk-form-group--error]="personForm.get('dateOfBirth')?.invalid && personForm.get('dateOfBirth')?.touched">
+      <label for="dateOfBirth" class="govuk-label">Date of Birth</label>
+      <p *ngIf="personForm.get('dateOfBirth')?.invalid && personForm.get('dateOfBirth')?.touched"
+         id="dateOfBirth-error"
+         class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> {{ getErrorMessage('dateOfBirth') }}
+      </p>
+      <input id="dateOfBirth"
+             formControlName="dateOfBirth"
+             type="date"
+             class="govuk-input"
+             [class.govuk-input--error]="personForm.get('dateOfBirth')?.invalid && personForm.get('dateOfBirth')?.touched"
+             aria-required="true"
+             [attr.aria-invalid]="personForm.get('dateOfBirth')?.invalid && personForm.get('dateOfBirth')?.touched"
+             aria-describedby="dateOfBirth-error">
+    </div>
+
+    <div class="govuk-form-group" [class.govuk-form-group--error]="personForm.get('departmentId')?.invalid && personForm.get('departmentId')?.touched">
+      <label for="departmentId" class="govuk-label">Department</label>
+      <p *ngIf="personForm.get('departmentId')?.invalid && personForm.get('departmentId')?.touched"
+         id="departmentId-error"
+         class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> {{ getErrorMessage('departmentId') }}
+      </p>
+      <select id="departmentId"
+              formControlName="departmentId"
+              class="govuk-select"
+              [class.govuk-select--error]="personForm.get('departmentId')?.invalid && personForm.get('departmentId')?.touched"
+              aria-required="true"
+              [attr.aria-invalid]="personForm.get('departmentId')?.invalid && personForm.get('departmentId')?.touched"
+              aria-describedby="departmentId-error">
+        <option value="0" disabled>Select a department</option>
+        <option *ngFor="let dept of departments" [value]="dept.id">{{ dept.name }}</option>
+      </select>
+    </div>
+
+    <div class="govuk-form-group" [class.govuk-form-group--error]="personForm.get('email')?.invalid && personForm.get('email')?.touched">
+      <label for="email" class="govuk-label">Email</label>
+      <p *ngIf="personForm.get('email')?.invalid && personForm.get('email')?.touched"
+         id="email-error"
+         class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> {{ getErrorMessage('email') }}
+      </p>
+      <input id="email"
+             formControlName="email"
+             type="email"
+             class="govuk-input"
+             [class.govuk-input--error]="personForm.get('email')?.invalid && personForm.get('email')?.touched"
+             aria-required="true"
+             [attr.aria-invalid]="personForm.get('email')?.invalid && personForm.get('email')?.touched"
+             aria-describedby="email-error"
+             autocomplete="on">
+    </div>
+    <br/>
+    <button type="submit"
+            [disabled]="personForm.invalid"
+            class="govuk-button"
+            data-module="govuk-button"
+            aria-label="Save person">
+      Save
+    </button>
+  </fieldset>
+</form>
