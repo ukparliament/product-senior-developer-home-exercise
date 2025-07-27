@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonService } from '../../services/person.service';
-import { DepartmentService } from '../../services/department.service';
-import { Department } from '../../models/department-view-model';
-import { PersonViewModel } from '../../models/person-view-model';
-import { ValidationError } from '../../models/validation-error';
+import { PersonService } from '../../../services/person.service';
+import { DepartmentService } from '../../../services/department.service';
+import { Department } from '../../../models/department-view-model';
+import { PersonViewModel } from '../../../models/person-view-model';
+import { ValidationError } from '../../../models/validation-error';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-person-management',
+  templateUrl: './personManagement.component.html',
+  styleUrls: ['./personManagement.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class PersonManagementComponent implements OnInit {
   people: PersonViewModel[] = [];
   departments: Department[] = [];
   selectedPerson: PersonViewModel | null = null;
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   }
 
   selectPerson(person: PersonViewModel): void {
-    this.selectedPerson = { ...person }; // Clone to avoid direct mutation
+    this.selectedPerson = { ...person };
     this.errors = [];
   }
 

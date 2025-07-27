@@ -32,9 +32,4 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Startup\" />
-    <Folder Include="Validators\" />
-  </ItemGroup>
-
 </Project>
