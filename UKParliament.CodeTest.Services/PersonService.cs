@@ -41,7 +41,7 @@ public class PersonService(IPersonRepository repository, IPersonServiceMapper ma
         person.DateOfBirth = dto.DateOfBirth;
         person.DepartmentId = dto.DepartmentId;
         person.Email = dto.Email;
-        person.Department = null;
+        person.Department = null; // preventing DepartmentId mismatch issues
 
         await repository.UpdateAsync(person);
         return true;

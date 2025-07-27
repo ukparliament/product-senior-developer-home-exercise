@@ -30,7 +30,6 @@ public class DepartmentRepositoryTests
         _context.Dispose();
     }
 
-
     [Test]
     public async Task GetAllAsync_ReturnsAllSeededDepartments()
     {
@@ -43,5 +42,4 @@ public class DepartmentRepositoryTests
         result.Select(d => d.Name).ShouldContain("Sales");
         result.Select(d => d.Name).ShouldContain("Marketing");
     }
-
 }

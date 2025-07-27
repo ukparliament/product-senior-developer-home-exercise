@@ -30,7 +30,6 @@ public class PersonServiceMapper : IPersonServiceMapper
         };
     }
 
-
     public Person? ToEntity(PersonDto dto)
     {
         if (dto == null)
@@ -68,4 +67,3 @@ public class PersonServiceMapper : IPersonServiceMapper
         });
     }
 }
-

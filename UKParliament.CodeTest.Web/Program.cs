@@ -1,12 +1,4 @@
-using Microsoft.EntityFrameworkCore;
 using UKParliament.CodeTest.Data;
-using UKParliament.CodeTest.Data.Repositories;
-using UKParliament.CodeTest.Services;
-using UKParliament.CodeTest.Web.Validators;
-using FluentValidation;
-using UKParliament.CodeTest.Web.ViewModels;
-using UKParliament.CodeTest.Services.Mappers;
-using UKParliament.CodeTest.Web.Mappers;
 using UKParliament.CodeTest.Web.Startup;
 
 namespace UKParliament.CodeTest.Web;
@@ -38,6 +30,7 @@ public class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+        app.UseCustomExceptionHandler();
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
